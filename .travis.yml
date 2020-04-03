@@ -8,7 +8,7 @@ before_install:
 
 # add further scripts and test builds for other containers
 script:
-  - docker run cookej/react-test npm test -- --coverage # have to add coverage or it won't exit on success
+  - docker run -e CI=true cookej/react-test npm test
 
 # production builds
 after_success:
