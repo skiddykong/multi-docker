@@ -1,0 +1,27 @@
+sudo: required
+services:
+  - docker
+
+# for testing
+before_install:
+  - docker build -t cookej/react-test -f ./client/Dockerfile.dev ./client
+
+# add further scripts and test builds for other containers
+script:
+  - docker run cookej/react-test npm test -- --coverage # have to add coverage or it won't exit on success
+
+# production builds
+after_success:
+  - docker build -t cookej/multi-client ./client
+  - docker build -t cookej/multi-nginx ./nginx
+  - docker build -t cookej/multi-server ./server
+  - docker build -t cookej/multi-worker ./worker
+
+# Log into the docker CLI
+  - echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_ID" --password-stdin
+
+# Take those images and push them to docker hub
+  - docker push cookej/multi-client
+  - docker push cookej/multi-nginx
+  - docker push cookej/multi-server
+  - docker push cookej/multi-worker
