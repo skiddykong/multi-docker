@@ -4,24 +4,24 @@ services:
 
 # for testing
 before_install:
-  - docker build -t cookej/react-test -f ./client/Dockerfile.dev ./client
+  - docker build -t skiddykong/react-test -f ./client/Dockerfile.dev ./client
 
 # add further scripts and test builds for other containers
 script:
-  - docker run -e CI=true cookej/react-test npm test
+  - docker run -e CI=true skiddykong/react-test npm test
 
 # production builds
 after_success:
-  - docker build -t cookej/multi-client ./client
-  - docker build -t cookej/multi-nginx ./nginx
-  - docker build -t cookej/multi-server ./server
-  - docker build -t cookej/multi-worker ./worker
+  - docker build -t skiddykong/multi-client ./client
+  - docker build -t skiddykong/multi-nginx ./nginx
+  - docker build -t skiddykong/multi-server ./server
+  - docker build -t skiddykong/multi-worker ./worker
 
 # Log into the docker CLI
   - echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_ID" --password-stdin
 
 # Take those images and push them to docker hub
-  - docker push cookej/multi-client
-  - docker push cookej/multi-nginx
-  - docker push cookej/multi-server
-  - docker push cookej/multi-worker
+  - docker push skiddykong/multi-client
+  - docker push skiddykong/multi-nginx
+  - docker push skiddykong/multi-server
+  - docker push skiddykong/multi-worker
