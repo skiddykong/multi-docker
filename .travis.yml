@@ -25,3 +25,22 @@ after_success:
   - docker push skiddykong/multi-nginx
   - docker push skiddykong/multi-server
   - docker push skiddykong/multi-worker
+
+deploy:
+  edge: true # workaround for travis bug
+  provider: elasticbeanstalk
+  region: "us-east-1"
+  app: "MultiDocker-env-2"
+  env: "MultidockerEnv2-env"
+  # travis zips up files to deploy and sends to aws S3 bucket
+  # EB creates bucket automatically, search for it in S3
+  bucket_name: "elasticbeanstalk-us-east-1-030693593017"
+  # bucket has folder for each app, created on first deployment
+  # defaults to the app name
+  bucket_path: "MultiDocker-env-2"
+  on:
+    branch: master
+  # setup IAM user with access to beanstalk, add keys into
+  # travis ci via UI as environment variables
+  access_key_id: $AWS_ACCESS_KEY
+  secret_access_key: $AWS_SECRET_KEY
