@@ -31,7 +31,7 @@
     },
     {
       "name": "worker",
-      "image": "skiddykong/worker",
+      "image": "skiddykong/multi-worker",
       "hostname": "worker",
       "essential": false,
       "memory": 128
